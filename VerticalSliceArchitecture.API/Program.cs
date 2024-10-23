@@ -1,9 +1,12 @@
 using System.Reflection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Connections;
 using Microsoft.EntityFrameworkCore;
+using VerticalSliceArchitecture.API.Applications.Abstracts;
 using VerticalSliceArchitecture.API.Applications.Extensions;
-using VerticalSliceArchitecture.API.Infrastructure.Persistence;
+using VerticalSliceArchitecture.API.Infrastructure.Persistence.Contexts;
+using VerticalSliceArchitecture.API.Infrastructure.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +16,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
+var postgresConnectionString = builder.Configuration.GetConnectionString("PsqlConnection");
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseInMemoryDatabase("example-db"));
+           options.UseNpgsql(postgresConnectionString));
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//    options.UseInMemoryDatabase("example-db"));
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 builder.Services.AddFluentValidationAutoValidation();

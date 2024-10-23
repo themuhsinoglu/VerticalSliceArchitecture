@@ -1,14 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VerticalSliceArchitecture.API.Domain.Entities;
 
-namespace VerticalSliceArchitecture.API.Infrastructure.Persistence;
+namespace VerticalSliceArchitecture.API.Infrastructure.Persistence.Contexts;
 
-public class AppDbContext(DbContextOptions options) : DbContext(options)
+public class AppDbContext: DbContext
 {
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    {
+    }
     public DbSet<Product> Products { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         base.OnModelCreating(modelBuilder);
 
         // Additional configurations

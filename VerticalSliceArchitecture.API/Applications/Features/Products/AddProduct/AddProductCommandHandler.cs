@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using VerticalSliceArchitecture.API.Domain.Entities;
-using VerticalSliceArchitecture.API.Infrastructure.Persistence;
+using VerticalSliceArchitecture.API.Infrastructure.Persistence.Contexts;
 
 namespace VerticalSliceArchitecture.API.Applications.Features.Products.AddProduct;
 
