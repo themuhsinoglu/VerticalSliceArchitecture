@@ -19,27 +19,27 @@ namespace VerticalSliceArchitecture.API.Infrastructure.Persistence.Repositories
 
         public void BeginTransaction()
         {
-            throw new NotImplementedException();
+            _context.Database.BeginTransaction();
         }
 
         public void CommitTransaction()
         {
-            throw new NotImplementedException();
+            _context.Database.CommitTransaction();
         }
 
-        public Task<int> CompleteAsync()
+        public async Task<int> CompleteAsync()
         {
-            throw new NotImplementedException();
+            return await _context.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _context.Dispose();
         }
 
-        public Task<int> ExecuteRawSql(string sql)
+        public async Task<int> ExecuteRawSql(string sql)
         {
-            throw new NotImplementedException();
+            return await _context.Database.ExecuteSqlRawAsync(sql);
         }
 
         public IRepository<TEntity> GetRepository<TEntity>(bool hasCustomRepository = false) where TEntity : BaseEntity
@@ -60,7 +60,7 @@ namespace VerticalSliceArchitecture.API.Infrastructure.Persistence.Repositories
 
         public void RolbackTransaction()
         {
-            throw new NotImplementedException();
+            _context.Database.RollbackTransaction();
         }
     }
 }

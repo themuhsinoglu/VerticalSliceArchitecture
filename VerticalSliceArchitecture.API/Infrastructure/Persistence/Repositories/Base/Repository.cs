@@ -18,69 +18,74 @@ namespace VerticalSliceArchitecture.API.Infrastructure.Persistence.Repositories.
             _dbSet = _dbContext.Set<TEntity>();
         }
 
-        public Task AddAsync(TEntity entity)
+        public async Task AddAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            await _dbContext.Set<TEntity>().AddAsync(entity);
         }
 
-        public Task AddRangeAsync(IEnumerable<TEntity> entities)
+        public async Task AddRangeAsync(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            await _dbContext.Set<TEntity>().AddRangeAsync(entities);
         }
 
-        public Task<IList<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IList<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<TEntity>().Where(predicate).ToListAsync();
         }
 
-        public Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<TEntity>().FirstOrDefaultAsync(predicate);
         }
 
-        public Task<IList<TEntity>> GetAllAsync()
+        public async Task<IList<TEntity>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<TEntity>().ToListAsync();
         }
 
-        public ValueTask<TEntity?> GetByIdAsync(int id)
+        public async ValueTask<TEntity?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<TEntity>().FindAsync(id);
         }
 
-        public Task<int> GetCountAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<int> GetCountAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<TEntity>().CountAsync(predicate);
         }
 
         public void Remove(TEntity entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Set<TEntity>().Remove(entity);
         }
 
-        public Task RemoveById(int id)
+        public async Task RemoveById(int id)
         {
-            throw new NotImplementedException();
+            var entity = await GetByIdAsync(id);
+
+            if (entity != null)
+            {
+                Remove(entity);
+            }
         }
 
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            _dbContext.Set<TEntity>().RemoveRange(entities);
         }
 
         public void UntrackEntity(TEntity entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Entry(entity).State = EntityState.Detached;
         }
 
         public void Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Set<TEntity>().Update(entity);
         }
 
         public void UpdateRange(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            _dbContext.Set<TEntity>().UpdateRange(entities);
         }
     }
 }
